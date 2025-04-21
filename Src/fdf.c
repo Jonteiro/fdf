@@ -6,7 +6,7 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:36:03 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/04/21 13:46:46 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/04/21 13:48:03 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ int ft_is_esc( int keycode, t_data *img){
 		ft_killwindow(img);
 	return(0);
 }
+
+/* void	isometric(t_map *map)
+{
+	map->ang[X] = 30;
+	map->ang[Y] = 330;
+	map->ang[Z] = 45;
+} */
 
 void	ft_hooks(t_data img){
 	mlx_hook(img.mlx_win, 17, 0L, ft_killwindow, &img);
