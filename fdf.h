@@ -6,7 +6,7 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 12:18:05 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/04/21 15:12:40 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:37:02 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef struct	t_data {
 }				t_data;
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-int		get_transp(int trgb);
 
 
 
