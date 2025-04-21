@@ -6,7 +6,7 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 12:18:05 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/04/17 12:54:04 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:08:10 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 # define FDF_H
 
 # include <math.h>
+# include <stdlib.h>
+# include <stdio.h>
 # include <mlx.h>
 
 typedef struct	s_data {
+	void 	*mlx;
+	void 	*mlx_win;
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
