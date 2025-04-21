@@ -6,7 +6,7 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:36:03 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/04/21 12:10:39 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/04/21 13:46:46 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,6 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 	dest = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dest = color;
-}
-
-int	get_transp(int trgb)
-{
-	return ((trgb >> 24) & 0xFF);
-}
-
-int	get_r(int trgb)
-{
-	return ((trgb >> 16) & 0xFF);
-}
-
-int	get_g(int trgb)
-{
-	return ((trgb >> 8) & 0xFF);
-}
-
-int	get_b(int trgb)
-{
-	return (trgb & 0xFF);
 }
 
 int ft_killwindow(t_data *img){
