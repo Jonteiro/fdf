@@ -3,17 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/11 12:22:13 by jsilveir          #+#    #+#              #
-#    Updated: 2025/04/11 15:13:47 by jsilveir         ###   ########.fr        #
+#    Updated: 2025/04/24 14:55:31 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
 NAME=fdf
 CC=cc
-CFLAGS= -Wall -Wextra -Werror -g
+CFLAGS= -Wall -Wextra -Werror -g -Imlx -I/usr/include/X11
 OBJ_DIR= Obj_Fdf
 SRC_DIR= Src
 LIBFT= libft/libft.a
