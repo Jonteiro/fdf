@@ -6,15 +6,17 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:20:57 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/04/03 14:47:56 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:33:53 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
+# include "../libft.h" 
 # include <unistd.h>
 # include <stdio.h>
+# include <limits.h>
 # include <stdarg.h>
 
 int		ft_printf(const char *format, ...);

@@ -6,7 +6,7 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 15:26:57 by jsilveir          #+#    #+#             */
-/*   Updated: 2024/12/23 15:09:52 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:33:46 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,10 @@ int	ft_put_nbr_base(unsigned int nbr, char *base)
 		result += write(1, &c, 1);
 	}
 	return (result);
+}
+
+int	ft_putchar_fd1(char c, int fd)
+{
+	write(fd, &c, 1);
+	return (1);
 }

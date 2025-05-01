@@ -6,12 +6,11 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:24:01 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/04/03 14:45:46 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:30:21 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
 size_t	ft_strlen(const char *str)
 {

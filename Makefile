@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/11 12:22:13 by jsilveir          #+#    #+#              #
-#    Updated: 2025/04/24 14:55:31 by marvin           ###   ########.fr        #
+#    Updated: 2025/05/01 14:40:51 by jsilveir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC_DIR= Src
 LIBFT= libft/libft.a
 MLX= mlx/libmlx.a
 
-SRC_FILES= fdf.c
+SRC_FILES= fdf.c map.c error.c drawing.c
 
 OBJ= $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 SRC= $(addprefix $(SRC_DIR)/, $(SRC_FILES))

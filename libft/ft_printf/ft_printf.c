@@ -6,12 +6,11 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:21:00 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/04/03 14:47:45 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:34:35 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <limits.h>
 
 int	ft_is_spec(int c)
 {
@@ -25,10 +24,10 @@ int	check_spec(va_list args, char format)
 {
 	int	length;
 
-	length = 0;int		ft_putchar_fd(char c, int fd);
+	length = 0;
 
 	if (format == 'c')
-		length += ft_putchar_fd(va_arg(args, int), 1);
+		length += ft_putchar_fd1(va_arg(args, int), 1);
 	if (format == 's')
 		length += ft_putstr_fd1(va_arg(args, char *), 1);
 	if (format == 'p')
@@ -44,7 +43,7 @@ int	check_spec(va_list args, char format)
 		length += ft_put_nbr_base(va_arg(args, unsigned int),
 				"0123456789ABCDEF");
 	if (format == '%')
-		length += ft_putchar_fd('%', 1);
+		length += ft_putchar_fd1('%', 1);
 	return (length);
 }
 

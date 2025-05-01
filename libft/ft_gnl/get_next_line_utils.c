@@ -6,70 +6,106 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:17:42 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/04/03 14:40:03 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/05/01 14:17:07 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen1(const char *s)
 {
 	size_t	i;
 
 	i = 0;
-	if (!str)
+	if (!s)
 		return (0);
-	while (str[i] && str[i] != '\n' && str)
+	while (s[i] && s[i] != '\n')
 		i++;
-	if (str[i] == '\n' && str)
-		i++;
-	return (i);
+	return (i + (s[i] == '\n'));
 }
 
-void	clean_buffer(char *buffer)
+char	*ft_strjoin1(char *line, char *buf_part)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (buffer[i] != '\n' && buffer[i] != '\0')
-		i++;
-	if (buffer[i] == '\n')
-		i++;
-	while (buffer[j] != '\0')
-	{
-		buffer[j] = buffer[i];
-		i++;
-		j++;
-	}
-	buffer[j] = '\0';
-}
-
-char	*ft_strjoin1(char *s1, char *s2)
-{
-	char	*result;
+	char	*new;
 	size_t	i;
 	size_t	j;
+	size_t	len;
 
+	len = ft_strlen1(buf_part);
+	new = malloc(ft_strlen1(line) + len + 1);
+	if (!new)
+		return (free(line), NULL);
 	i = 0;
 	j = 0;
-	result = malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2) + 1)));
-	if (!result)
-		return (free(s1), NULL);
-	while (s1 && s1[i] != '\0')
-	{
-		result[i] = s1[i];
-		i++;
-	}
-	while (s2[j] && s2[j] != '\n')
-	{
-		result[j + i] = s2[j];
-		j++;
-	}
-	if (s2[j] == '\n')
-		result[i + j++] = '\n';
-	result[i + j] = '\0';
-	free(s1);
-	return (result);
+	while (line && line[i])
+		new[j++] = line[i++];
+	i = 0;
+	while (i < len)
+		new[j++] = buf_part[i++];
+	new[j] = '\0';
+	free(line);
+	return (new);
 }
+
+int	clean_buffer(char *buffer, size_t *pos)
+{
+	size_t	len = ft_strlen1(buffer + *pos);
+
+	if (buffer[*pos + len] == '\n')
+	{
+		*pos += len + 1;
+		return (0);
+	}
+	*pos += len;
+	return (1);
+}
+
+// size_t	ft_strlen1(const char *s)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	if (!s[i])
+// 		return (0);
+// 	while (s[i] && s[i] != '\n')
+// 		i++;
+// 	return (i);
+// }
+
+// char	*ft_strjoin1(char *line, char *buf)
+// {
+// 	char	*new;
+// 	size_t	i;
+// 	size_t	j;
+// 	size_t	len;
+
+// 	len = ft_strlen1(buf);
+// 	new = malloc(ft_strlen1(line) + len + 1);
+// 	if (!new)
+// 		return (free(line), NULL);
+// 	i = 0;
+// 	j = 0;
+// 	while (line && line[i])
+// 		new[j++] = line[i++];
+// 	i = 0;
+// 	while (buf[i] && i < len)
+// 		new[j++] = buf[i++];
+// 	new[j] = '\0';
+// 	free(line);
+// 	return (new);
+// }
+
+// void	clean_buffer(char *buffer)
+// {
+// 	size_t	i;
+// 	size_t	j;
+// 	size_t	len;
+
+// 	len = ft_strlen1(buffer);
+// 	i = len;
+// 	j = 0;
+// 	while (buffer[i])
+// 		buffer[j++] = buffer[i++];
+// 	while (j < BUFFER_SIZE + 1)
+// 		buffer[j++] = '\0';
+// }
