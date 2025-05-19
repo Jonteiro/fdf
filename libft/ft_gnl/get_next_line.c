@@ -6,7 +6,7 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:17:46 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/05/01 14:15:23 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/05/03 13:36:14 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,25 +61,24 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-
 // int	main(void)
 // {
 // 	int		fd;
 // 	char	*line;
 
-// 	fd = open("textfile.txt", O_RDONLY);
+// 	fd = open("../../test.fdf", O_RDONLY);
 // 	if (fd <= 0)
 // 	{
 // 		printf("Error opening file\n");
 // 		return (1);
 // 	}
-// 	// while (line != NULL)
-// 	// {
+// 	while (line != NULL)
+// 	{
 // 		line = get_next_line(fd);
-// 		// if (line != NULL)
+// 		if (line != NULL)
 // 			printf("line - %s", line);
 // 		free(line);
-// 	// }
+// 	}
 // 	close(fd);
 // 	return (0);
 // }

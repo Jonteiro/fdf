@@ -6,13 +6,14 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 12:18:05 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/05/01 14:38:55 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:11:34 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
+# define _USE_MATH_DEFINES
 # include <math.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -20,9 +21,10 @@
 # include "libft/libft.h"
 # include "mlx/mlx.h"
 
-# define WIN_WIDTH 1500
+# define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
-# define SCALE 40
+# define SCALE 45
+# define Z_SCALE 10
 # define ANGLE 0.523599  // 30 deg in rad
 
 typedef struct s_point
@@ -67,10 +69,14 @@ void	isometric(s_map *map);
 void	ft_hooks(s_data *img);
 int		is_number(char *str);
 void	map_format(char *file);
-int		get_height(char *filename);
-int		get_width(char *filename);
+// int		get_height(int fd);
+int		get_width(char *line, s_map *map);
 void 	fill_matrix(s_map *map, char *line, int y);
 void 	read_map(s_data *data, char *filename);
 int 	count_words(const char *str, char c);
-
+void	ft_free_split(char **split_arr);
+void	isometric(s_map *map);
+void	print_matrix(s_map *map);
+s_point matrix_multiply(float mat[3][3], s_point point);
+void    draw_edges(s_data *data);
 #endif

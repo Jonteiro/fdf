@@ -12,65 +12,25 @@
 
 #include "../fdf.h"
 
-int	get_height(char *filename)
+static void	get_dimensions(s_data *data, char *filename)
 {
 	int		fd;
-	int		height;
 	char	*line;
 
 	fd = open(filename, O_RDONLY);
-	height = 0;
 	if (fd < 0)
-		ft_error("Could not open file");
-	while ((line = get_next_line(fd)))
+		ft_error("Error opening file");
+	data->map.height = 0;
+	line = get_next_line(fd);
+	while (line)
 	{
+		data->map.width = get_width(line, &data->map);
 		free(line);
-		height++;
+		data->map.height++;
+		line = get_next_line(fd);
 	}
 	close(fd);
-	return (height);
 }
-
-int	get_width(char *filename)
-{
-	int		fd;
-	char	*line;
-	char	**split;
-	int		width;
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 0 || !(line = get_next_line(fd)))
-		ft_error("Could not open file");
-	split = ft_split(line, ' ');
-	width = 0;
-	while (split[width])
-		free(split[width++]);
-	free(split);
-	free(line);
-	close(fd);
-	return (width);
-}
-
-void	fill_matrix(s_map *map, char *line, int y)
-{
-	char	**nums;
-	int		x;
-
-	x = -1;
-	nums = ft_split(line, ' ');
-	if (!nums)
-		ft_error("Memory error");
-	while (++x < map->width)
-	{
-		map->points[y][x].z = ft_atoi(nums[x]);
-		free(nums[x]);
-	}
-	if (x != map->width)
-		(ft_error("Invalid line"), free(nums));
-
-	free(nums);
-}
-
 
 void	read_map(s_data *data, char *filename)
 {
@@ -78,39 +38,107 @@ void	read_map(s_data *data, char *filename)
 	char	*line;
 	int		y;
 
-	data->map.width = get_width(filename);
-	data->map.height = get_height(filename);
-	fd = open(filename, O_RDONLY);
+	get_dimensions(data, filename);
 	data->map.points = malloc(sizeof(s_point *) * data->map.height);
-	y = -1;
-	while (++y < data->map.height)
+	if (!data->map.points)
+		ft_error("Malloc failed");
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		ft_error("Error opening file");
+	y = 0;
+	line = get_next_line(fd);
+	while (line)
 	{
-		line = get_next_line(fd);
-		if (count_words(line, ' ') != data->map.width)
-			(ft_error("Invalid map"), free(line));
 		data->map.points[y] = malloc(sizeof(s_point) * data->map.width);
-		fill_matrix(&data->map, line, y);
+		if (!data->map.points[y])
+			ft_error("Malloc failed");
+		fill_matrix(&data->map, line, y++);
 		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 }
 
-int count_words(const char *str, char c)
+int	get_width(char *line, s_map *map)
 {
-    int count = 0;
-    int in_word = 0;
+	char	**split;
+	int		width;
 
-    if (!str)
-        return (0);
-        
-    while (*str) {
-        if (*str != c && !in_word) {
-            in_word = 1;
-            count++;
-        } else if (*str == c) {
-            in_word = 0;
-        }
-        str++;
-    }
-    return (count);
+	split = ft_split(line, ' ');
+	width = 0;
+	while (split[width])
+		free(split[width++]);
+	free(split);
+	if (map->width == 0)
+		map->width = width;
+	return (width);
 }
+	// else if (map->width != width)
+	// 	ft_error("MAP NOT SQUARE");
+
+void	fill_matrix(s_map *map, char *line, int y)
+{
+	char	**nums;
+	int		x;
+
+	nums = ft_split(line, ' ');
+	x = 0;
+	while (x < map->width)
+	{
+		map->points[y][x].x = x;
+		map->points[y][x].y = y;
+		map->points[y][x].z = (float)ft_atoi(nums[x]);
+		free(nums[x]);
+		x++;
+	}
+	free(nums);
+}
+
+// void	read_map(s_data *data, char *filename)
+// {
+// 	int		fd;
+// 	char	*line;
+
+// 	fd = open(filename, O_RDONLY);
+// 	data->map.height = 0;
+// 	line = get_next_line(fd);
+// 	while (line)
+// 	{
+// 		if (data->map.height == 0)
+// 			data->map.width = count_words(line, ' ');
+// 		free(line);
+// 		data->map.height++;
+// 		line = get_next_line(fd);
+// 	}
+// 	close(fd);
+// 	data->map.points = malloc(sizeof(s_point *) * data->map.height);
+// 	fd = open(filename, O_RDONLY);
+// 	for (int y = 0; (line = get_next_line(fd)); y++)
+// 	{
+// 		data->map.points[y] = malloc(sizeof(s_point) * data->map.width);
+// 		if (!data->map.points[y])
+// 			ft_error("Malloc failed");
+// 		fill_matrix(&data->map, line, y);
+// 		free(line);
+// 	}
+// 	close(fd);
+// }
+
+// void	print_matrix(s_map *map)
+// {
+//     int	y;
+// 	int	x;
+// 	y = 0;
+// 	while (y < map->height)
+// 	{
+//         x = 0;
+// 		while (x < map->width)
+// 		{
+//             printf("point[%d][%d] = (%.2f, %.2f, %.2f)\n", y,
+	// x, map->points[y][x].x, map->points[y][x].y, map->points[y][x].z);
+// 			x++;
+// 		}
+// 		ft_printf("\n");
+// 		y++;
+// 	}
+// }

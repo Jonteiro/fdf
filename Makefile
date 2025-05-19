@@ -6,7 +6,7 @@
 #    By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/11 12:22:13 by jsilveir          #+#    #+#              #
-#    Updated: 2025/05/01 14:40:51 by jsilveir         ###   ########.fr        #
+#    Updated: 2025/05/08 15:22:07 by jsilveir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC_DIR= Src
 LIBFT= libft/libft.a
 MLX= mlx/libmlx.a
 
-SRC_FILES= fdf.c map.c error.c drawing.c
+SRC_FILES= fdf.c map.c error.c drawing.c rotation.c
 
 OBJ= $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 SRC= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
