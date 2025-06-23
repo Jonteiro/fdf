@@ -12,11 +12,13 @@
 
 #include "../fdf.h"
 
-static void	get_dimensions(s_data *data, char *filename)
+static void	get_dimensions(t_data *data, char *filename)
 {
 	int		fd;
 	char	*line;
+	int		width;
 
+	data->map.width = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		ft_error("Error opening file");
@@ -24,7 +26,14 @@ static void	get_dimensions(s_data *data, char *filename)
 	line = get_next_line(fd);
 	while (line)
 	{
-		data->map.width = get_width(line, &data->map);
+		width = count_words(line, ' ');
+		if (width == 0)
+			ft_error("Empty line in map");
+		if (data->map.width == 0)
+			data->map.width = width;
+		else if (width != data->map.width)
+			clean_exit(data, data->map.height, fd, line);
+			// ft_error("MAP NOT SQUARE");
 		free(line);
 		data->map.height++;
 		line = get_next_line(fd);
@@ -32,51 +41,56 @@ static void	get_dimensions(s_data *data, char *filename)
 	close(fd);
 }
 
-void	read_map(s_data *data, char *filename)
+void	clean_exit(t_data *data, int y, int fd, char *line)
+{
+	if (line)
+		free(line);
+	if (data->map.points)
+		ft_free_map(data, y);
+	if (fd >= 0)
+		close(fd);
+	ft_error("MAP NOT SQUARE");
+}
+
+void	read_map(t_data *data, char *filename)
 {
 	int		fd;
 	char	*line;
 	int		y;
 
 	get_dimensions(data, filename);
-	data->map.points = malloc(sizeof(s_point *) * data->map.height);
+	data->map.points = malloc(sizeof(t_point *) * data->map.height);
 	if (!data->map.points)
 		ft_error("Malloc failed");
 	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		ft_error("Error opening file");
-	y = 0;
+	y = -1;
 	line = get_next_line(fd);
-	while (line)
+	while (++y < data->map.height && line)
 	{
-		data->map.points[y] = malloc(sizeof(s_point) * data->map.width);
-		if (!data->map.points[y])
-			ft_error("Malloc failed");
-		fill_matrix(&data->map, line, y++);
+		data->map.points[y] = malloc(sizeof(t_point) * data->map.width);
+		if (!data->map.points[y] || get_width(line, &data->map)
+			!= data->map.width)
+			clean_exit(data, y, fd, line);
+		fill_matrix(&data->map, line, y);
 		free(line);
 		line = get_next_line(fd);
 	}
+	if (line)
+		free(line);
 	close(fd);
 }
 
-int	get_width(char *line, s_map *map)
+int	get_width(char *line, t_map *map)
 {
-	char	**split;
-	int		width;
+	int	width;
 
-	split = ft_split(line, ' ');
-	width = 0;
-	while (split[width])
-		free(split[width++]);
-	free(split);
+	width = count_words(line, ' ');
 	if (map->width == 0)
 		map->width = width;
 	return (width);
 }
-	// else if (map->width != width)
-	// 	ft_error("MAP NOT SQUARE");
 
-void	fill_matrix(s_map *map, char *line, int y)
+void	fill_matrix(t_map *map, char *line, int y)
 {
 	char	**nums;
 	int		x;
@@ -93,52 +107,3 @@ void	fill_matrix(s_map *map, char *line, int y)
 	}
 	free(nums);
 }
-
-// void	read_map(s_data *data, char *filename)
-// {
-// 	int		fd;
-// 	char	*line;
-
-// 	fd = open(filename, O_RDONLY);
-// 	data->map.height = 0;
-// 	line = get_next_line(fd);
-// 	while (line)
-// 	{
-// 		if (data->map.height == 0)
-// 			data->map.width = count_words(line, ' ');
-// 		free(line);
-// 		data->map.height++;
-// 		line = get_next_line(fd);
-// 	}
-// 	close(fd);
-// 	data->map.points = malloc(sizeof(s_point *) * data->map.height);
-// 	fd = open(filename, O_RDONLY);
-// 	for (int y = 0; (line = get_next_line(fd)); y++)
-// 	{
-// 		data->map.points[y] = malloc(sizeof(s_point) * data->map.width);
-// 		if (!data->map.points[y])
-// 			ft_error("Malloc failed");
-// 		fill_matrix(&data->map, line, y);
-// 		free(line);
-// 	}
-// 	close(fd);
-// }
-
-// void	print_matrix(s_map *map)
-// {
-//     int	y;
-// 	int	x;
-// 	y = 0;
-// 	while (y < map->height)
-// 	{
-//         x = 0;
-// 		while (x < map->width)
-// 		{
-//             printf("point[%d][%d] = (%.2f, %.2f, %.2f)\n", y,
-	// x, map->points[y][x].x, map->points[y][x].y, map->points[y][x].z);
-// 			x++;
-// 		}
-// 		ft_printf("\n");
-// 		y++;
-// 	}
-// }

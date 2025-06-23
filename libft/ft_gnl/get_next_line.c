@@ -6,7 +6,7 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:17:46 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/05/03 13:36:14 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:27:09 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@
 
 char	*get_next_line(int fd)
 {
-	static char	buf[BUFFER_SIZE + 1];
+	static char		buf[BUFFER_SIZE + 1];
 	static size_t	pos;
-	char		*line;
-	ssize_t		bytes;
+	char			*line;
+	ssize_t			bytes;
 
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)

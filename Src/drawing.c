@@ -12,70 +12,79 @@
 
 #include "../fdf.h"
 
-void	my_mlx_pixel_put(s_data *data, int x, int y, int color)
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dest;
 
 	dest = data->addr + (y * data->line_length + x
 			* (data->bits_per_pixel / 8));
-	*(unsigned int *) dest = color;
+	*(unsigned int *)dest = color;
 }
 
-void	dda_line_draw(s_data *data, float x1, float y1, float x2, float y2)
+static void	draw_pixels(t_data *data, float x, float y, t_linestruct *dd)
 {
-	float	steps;
-	float	x_inc;
-	float	y_inc;
+	int	i;
 
-	if (x2 - x1 == 0 && y2 - y1 == 0)
+	i = -1;
+	while (++i <= dd->steps)
 	{
-		my_mlx_pixel_put(data, round(x1), round(y1), 0x00ffffff);
+		if (x >= 0 && x < data->win_width && y >= 0 && y < data->win_height)
+			my_mlx_pixel_put(data, round(x), round(y), 0x00ffffff);
+		x += dd->x_inc;
+		y += dd->y_inc;
+	}
+}
+
+void	dda_line_draw(t_data *data, t_point start, t_point end)
+{
+	t_linestruct	dd;
+	float		current_x;
+	float		current_y;
+
+	if (end.x - start.x == 0 && end.y - start.y == 0)
+	{
+		my_mlx_pixel_put(data, round(start.x), round(start.y), 0x00ffffff);
 		return ;
 	}
-	if (fabs(x2 - x1) > fabs(y2 - y1))
-		steps = fabs(x2 - x1);
-	else
-		steps = fabs(y2 - y1);
-	x_inc = (x2 - x1) / steps;
-	y_inc = (y2 - y1) / steps;
-	for (int i = 0; i <= steps; i++)
+	dd.steps = fabs(end.x - start.x);
+	if (fabs(end.y - start.y) > dd.steps)
+		dd.steps = fabs(end.y - start.y);
+	dd.x_inc = (end.x - start.x) / dd.steps;
+	dd.y_inc = (end.y - start.y) / dd.steps;
+	current_x = start.x;
+	current_y = start.y;
+	draw_pixels(data, current_x, current_y, &dd);
+}
+
+static void	draw_connections(t_data *data, int y, int x)
+{
+	t_point	c;
+	t_point	r;
+	t_point	b;
+
+	c = data->map.points[y][x];
+	if (x < data->map.width - 1)
 	{
-		if (x1 >= 0 && x1 < data->win_width && y1 >= 0 && y1 < data->win_height)
-			my_mlx_pixel_put(data, round(x1), round(y1), 0x00ffffff);
-		x1 += x_inc;
-		y1 += y_inc;
+		r = data->map.points[y][x + 1];
+		dda_line_draw(data, c, r);
+	}
+	if (y < data->map.height - 1)
+	{
+		b = data->map.points[y + 1][x];
+		dda_line_draw(data, c, b);
 	}
 }
 
-void	draw_edges(s_data *data)
+void	draw_edges(t_data *data)
 {
-	int		x;
-	int		y;
-	s_point	*current;
-	s_point	*right;
-	s_point	*bottom;
+	int	y;
+	int	x;
 
-	y = 0;
-	while (y < data->map.height)
+	y = -1;
+	while (++y < data->map.height)
 	{
-		x = 0;
-		while (x < data->map.width)
-		{
-			current = &data->map.points[y][x];
-			if (x < data->map.width - 1)
-			{
-				right = &data->map.points[y][x + 1];
-				dda_line_draw(data, current->x, current->y,
-					right->x, right->y);
-			}
-			if (y < data->map.height - 1)
-			{
-				bottom = &data->map.points[y + 1][x];
-				dda_line_draw(data, current->x, current->y,
-					bottom->x, bottom->y);
-			}
-			x++;
-		}
-		y++;
+		x = -1;
+		while (++x < data->map.width)
+			draw_connections(data, y, x);
 	}
 }

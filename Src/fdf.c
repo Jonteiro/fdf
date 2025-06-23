@@ -6,7 +6,7 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:20:40 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/05/14 15:42:01 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:21:46 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 int	ft_killwindow(void *param)
 {
-	s_data	*img;
+	t_data	*img;
 
-	img = (s_data *)param;
+	img = (t_data *)param;
 	if (img)
 	{
+		if (img->map.points)
+			ft_free_map(img, -1);
 		if (img->img && img->mlx)
 			mlx_destroy_image(img->mlx, img->img);
 		if (img->mlx_win && img->mlx)
@@ -28,7 +30,7 @@ int	ft_killwindow(void *param)
 			mlx_destroy_display(img->mlx);
 			free(img->mlx);
 		}
-		ft_memset(img, 0, sizeof(s_data));
+		ft_memset(img, 0, sizeof(t_data));
 	}
 	exit(0);
 	return (0);
@@ -36,15 +38,15 @@ int	ft_killwindow(void *param)
 
 int	ft_is_esc(int keycode, void *param)
 {
-	s_data	*img;
+	t_data	*img;
 
-	img = (s_data *)param;
+	img = (t_data *)param;
 	if (keycode == 65307)
 		ft_killwindow(img);
 	return (0);
 }
 
-void	ft_hooks(s_data *img)
+void	ft_hooks(t_data *img)
 {
 	mlx_hook(img->mlx_win, 17, 0L, ft_killwindow, img);
 	mlx_hook(img->mlx_win, 02, 1L << 0, ft_is_esc, img);
@@ -67,7 +69,7 @@ int	is_number(char *str)
 
 int	main(int ac, char **av)
 {
-	s_data	data;
+	t_data	data;
 
 	if (ac != 2)
 		ft_error("1 ARGUMENT PLEASE");
@@ -87,4 +89,3 @@ int	main(int ac, char **av)
 	mlx_loop(data.mlx);
 	return (0);
 }
-// ft_memset(&data, 0, sizeof(data));

@@ -6,7 +6,7 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:21:00 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/04/30 12:34:35 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:27:58 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	check_spec(va_list args, char format)
 	int	length;
 
 	length = 0;
-
 	if (format == 'c')
 		length += ft_putchar_fd1(va_arg(args, int), 1);
 	if (format == 's')

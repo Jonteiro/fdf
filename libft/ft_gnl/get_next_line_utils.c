@@ -6,7 +6,7 @@
 /*   By: jsilveir <jsilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:17:42 by jsilveir          #+#    #+#             */
-/*   Updated: 2025/05/01 14:17:07 by jsilveir         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:27:41 by jsilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ char	*ft_strjoin1(char *line, char *buf_part)
 
 int	clean_buffer(char *buffer, size_t *pos)
 {
-	size_t	len = ft_strlen1(buffer + *pos);
+	size_t	len;
 
+	len = ft_strlen1(buffer + *pos);
 	if (buffer[*pos + len] == '\n')
 	{
 		*pos += len + 1;

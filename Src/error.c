@@ -47,10 +47,37 @@ int	count_words(const char *str, char c)
 			count++;
 		}
 		else if (*str == c)
-		{
 			in_word = 0;
-		}
 		str++;
 	}
 	return (count);
+}
+
+void	ft_free_map(t_data *data, int last_allocated_row)
+{
+	int	i;
+
+	if (data->map.points)
+	{
+		if (last_allocated_row == -1)
+		{
+			i = 0;
+			while (i < data->map.height)
+			{
+				free(data->map.points[i]);
+				i++;
+			}
+		}
+		else
+		{
+			i = 0;
+			while (i <= last_allocated_row)
+			{
+				free(data->map.points[i]);
+				i++;
+			}
+		}
+		free(data->map.points);
+		data->map.points = NULL;
+	}
 }
